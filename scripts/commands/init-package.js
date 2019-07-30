@@ -1,5 +1,6 @@
 'use strict'
 
+const referencePackageJson = require('../../package.json')
 const chalk = require('chalk').default
 const { notes, emitWarning } = require('../lib/notes')
 
@@ -48,7 +49,10 @@ module.exports = async () => {
         notes.needsNpmInstall = true
       }
 
-      if (manifest.devDependencies && manifest.devDependencies['@acuris/eslint-config']) {
+      if (
+        (manifest.devDependencies && manifest.devDependencies[referencePackageJson.name]) ||
+        (manifest.dependencies && manifest.dependencies[referencePackageJson.name])
+      ) {
         if (!manifest.scripts) {
           manifest.scripts = {}
         }
